@@ -1,0 +1,13 @@
+allowed:
+  - docs/**
+  - .github/copilot/**
+  - .github/copilot-instructions.md
+  - .github/instructions/**
+  - .github/agents/**
+  - .cursor/rules/**
+  - .github/PULL_REQUEST_TEMPLATE/ssot-sync.md
+  - .claude/**
+  - .agent.md
+  - AGENTS.md
+  - CLAUDE.md
+  - GEMINI.md
