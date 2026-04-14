@@ -29,11 +29,6 @@ def test_resolve_set_ssot_core_mode(tmp_path: Path) -> None:
     dist_root = catalog_dir / "react-app"
     dist_root.mkdir(parents=True)
     (dist_root / "AGENTS.md").write_text("agents content", encoding="utf-8")
-    (
-        (dist_root / ".github" / "copilot-instructions.md").mkdir(parents=True, exist_ok=False)
-        if False
-        else None
-    )
     dot_github = dist_root / ".github"
     dot_github.mkdir(parents=True)
     (dot_github / "copilot-instructions.md").write_text("copilot", encoding="utf-8")

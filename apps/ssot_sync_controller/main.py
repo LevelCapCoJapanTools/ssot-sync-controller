@@ -22,6 +22,7 @@ import logging
 import sys
 from datetime import UTC, datetime
 from pathlib import Path
+from typing import Any
 
 from .config_loader import load_allowed_paths, load_ssot_bot_config
 from .deduper import dedupe
@@ -221,7 +222,7 @@ def run(argv: list[str] | None = None) -> int:
     return 0
 
 
-def _write_output(data: dict, output_path: Path | None) -> None:  # type: ignore[type-arg]
+def _write_output(data: dict[str, Any], output_path: Path | None) -> None:
     text = json.dumps(data, ensure_ascii=False, indent=2)
     if output_path is None:
         sys.stdout.write(text + "\n")

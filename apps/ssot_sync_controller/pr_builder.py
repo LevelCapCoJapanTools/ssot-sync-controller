@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import logging
 from datetime import UTC, datetime
+from typing import Any
 
 from .models import DiffResult, UseEntry
 from .serializer import encode_file
@@ -114,7 +115,7 @@ def build_output_json(
     use_entries: tuple[UseEntry, ...],
     diff: DiffResult,
     ts: datetime,
-) -> dict:  # type: ignore[type-arg]
+) -> dict[str, Any]:
     """ssot-bot へ渡す JSON dict を生成する。
 
     content フィールドは BASE64 エンコード済み。
@@ -134,7 +135,7 @@ def build_output_json(
     pr_title = build_pr_title(use_entries, ts)
     pr_body = build_pr_body(use_entries, diff, ts)
 
-    files: list[dict] = []  # type: ignore[type-arg]
+    files: list[dict[str, Any]] = []
 
     for f in diff.overwrites:
         encoded = encode_file(f.absolute_source)
