@@ -1,0 +1,58 @@
+name: Python CI（lint / typecheck / test / security）
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths:
+      - "apps/**"
+      - "config/**"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: python-ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    name: lint / typecheck / test / security
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    defaults:
+      run:
+        working-directory: apps
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+          cache-dependency-path: apps/requirements.txt
+
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+
+      - name: format（black）
+        run: black --check .
+
+      - name: lint（ruff）
+        run: ruff check .
+
+      - name: typecheck（mypy）
+        run: mypy .
+
+      - name: test（pytest）
+        run: python -m pytest -q
+
+      - name: security（pip-audit）
+        run: |
+          pip install pip-audit==2.9.0
+          pip-audit -r requirements.txt
